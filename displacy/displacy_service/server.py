@@ -4,6 +4,7 @@ from __future__ import print_function
 
 from pathlib import Path
 import falcon
+from falcon_cors import CORS
 import spacy
 import json
 
@@ -143,13 +144,14 @@ class EntResource(object):
             resp.body = json.dumps(entities.to_json(), sort_keys=True,
                                    indent=2)
             resp.content_type = 'text/string'
-            resp.append_header('Access-Control-Allow-Origin', "*")
+            #resp.append_header('Access-Control-Allow-Origin', "*")
             resp.status = falcon.HTTP_200
         except Exception:
             resp.status = falcon.HTTP_500
 
-
-APP = falcon.API()
+##allow_origins_list=['http://localhost']
+cors = CORS(allow_all_origins=True, allow_all_methods=True, allow_all_headers=True)
+APP = falcon.API(middleware=[cors.middleware])
 APP.add_route('/dep', DepResource())
 APP.add_route('/ent', EntResource())
 APP.add_route('/{model_name}/schema', SchemaResource())

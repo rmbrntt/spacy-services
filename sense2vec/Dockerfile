@@ -5,8 +5,6 @@ RUN mkdir -p /usr/sense2vec
 COPY . /usr/sense2vec/
 WORKDIR /usr/sense2vec
 
-ADD app.py /app.py
-
 
 EXPOSE 8002
 
